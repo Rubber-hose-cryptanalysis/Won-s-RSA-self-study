@@ -1,3 +1,0 @@
-﻿  main.cpp
-C:\GMP\gmp-6.2.1\gmp.h(1788,19): warning C4244: 'return': 'mp_limb_t'에서 'unsigned long'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  RSA.vcxproj -> C:\Users\munsa\OneDrive\바탕 화면\입학전암호구현\RSA\x64\Debug\RSA.exe
