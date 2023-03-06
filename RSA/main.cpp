@@ -1,0 +1,24 @@
+#include "RSA.hpp"
+
+int main()
+{
+	std::vector<mpz_class> v;
+	v.resize(3);
+	
+	keyGen(v);
+
+	gmp_printf("The public keys are (%ZX, %ZX)\n", v[0], v[1]);
+
+	mpz_class m;
+	mpz_set_str(m.get_mpz_t(), "101010101010100110110110101101101011010101011001101101011001101011010101001011001010100000010011111111010101001010101001101010110111001011001101010101010010101010101010100101100000000000000001111111111111101010101110110111010010100101101010110101010010110010100110001010111011000101010101001010101010101010101010101110001010100101010101010", 2); //Example
+	gmp_printf("The plaintext is %ZX\n", m);
+
+	mpz_class c;
+	c = Encrypt(m, v[0], v[1]);
+	gmp_printf("The ciphertext is %ZX\n", c);
+
+	m = Decrypt(c, v[2], v[1]);
+	gmp_printf("The plaintext is %ZX\n", m);
+
+	return 0;
+}
