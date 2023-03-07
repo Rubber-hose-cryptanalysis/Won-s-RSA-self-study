@@ -22,15 +22,22 @@ std::vector<mpz_class> keyGen(std::vector<mpz_class>& v)
 	}
 	mpz_nextprime(p, p); //p는 1024bit prime
 
-	mpz_set_ui(q, 1);
-	for (int i = 0; i < 1024; i++)
+	mpz_set(q, p); mpz_mul(n.get_mpz_t(), p, q);
+	mpz_t dif; mpz_init(dif); mpz_sub(dif, p, q); mpz_abs(dif, dif); mpz_root(temp, n.get_mpz_t(), 4); mpz_mul_ui(temp, temp, 2);
+	while (mpz_cmp(dif, temp) < 0) //p,q가 너무 가까우면 n을 factorize하기 쉬워짐
 	{
-		mpz_mul_2exp(q, q, 1);
+		mpz_set_ui(q, 1);
+		for (int i = 0; i < 1023; i++)
+		{
+			mpz_mul_2exp(q, q, 1);
 
-		mpz_urandomb(temp, state, 1);
-		mpz_add(q, q, temp);
+			mpz_urandomb(temp, state, 1);
+			mpz_add(q, q, temp);
+		}
+		mpz_nextprime(q, q); //q는 1024bit prime
+
+		mpz_mul(n.get_mpz_t(), p, q); mpz_sub(dif, p, q); mpz_abs(dif, dif);
 	}
-	mpz_nextprime(q, q); //q는 1025bit prime
 
 	mpz_mul(n.get_mpz_t(), p, q); //n=p*q. 2048bit public key.
 	
